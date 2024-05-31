@@ -76,11 +76,11 @@
 }
 
 h1 {
-  @apply scroll-m-20 text-6xl font-semibold tracking-tight lg:text-7xl;
+  @apply scroll-m-20 text-5xl font-bold tracking-tight lg:text-6xl;
 }
 
 h2 {
-  @apply scroll-m-20 text-3xl font-medium tracking-tight;
+  @apply scroll-m-20 text-3xl font-medium tracking-tight lg:text-4xl;
 }
 
 h3 {
