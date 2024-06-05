@@ -11,6 +11,6 @@ export default function GoogleSignInButton({ children }: Props) {
   }
 
   return (
-    <Button onClick={loginWithGoogle} className='w-full'>{children}</Button>
+    <Button variant='outline' onClick={loginWithGoogle} className='w-full'>{children}</Button>
   )
 }

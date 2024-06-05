@@ -7,6 +7,8 @@ import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import GoogleSignInButton from '../ui/google-signin-button'
+
 
 const signupSchema = z.object({
     name: z.string().min(2, { message: 'Name must be at least 2 characters long' }),
@@ -99,7 +101,7 @@ const onSubmit = async (values: z.infer<typeof signupSchema>) => {
             <Button onClick={form.handleSubmit(onSubmit)}>Sign Up</Button>
         </form>
         <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
-        <Button variant='outline' className='w-full'>Sign up with Google</Button>
+        <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
     </Form>
   )
 }

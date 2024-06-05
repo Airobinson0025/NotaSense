@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { createUser } from "@/services/userService";
+import { getUserByEmail } from "@/services/userService";
 
 export async function POST(req: NextRequest) {
     try {
@@ -7,6 +8,11 @@ export async function POST(req: NextRequest) {
 
         if (!email || !password) {
             return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
+        }
+        
+        //check if user already exists
+        if(await getUserByEmail(email)) {
+            return NextResponse.json({ error: "User with this email already exists" }, { status: 400 });
         }
 
         //create user
