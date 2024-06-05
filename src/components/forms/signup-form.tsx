@@ -6,8 +6,10 @@ import { Button } from '../ui/button'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 
 const signupSchema = z.object({
+    name: z.string().min(2, { message: 'Name must be at least 2 characters long' }),
     email: z.string().email(),
     password: z.string().min(6, { message: 'Password must be at least 6 characters long' }).regex(/[!@#$%^&*(),.?":{}|<>]/, { message: 'Password must contain at least one special character' }),
   })
@@ -15,9 +17,12 @@ const signupSchema = z.object({
 
 const SignupForm = () => {
 
+    const router = useRouter()
+
     const form = useForm<z.infer<typeof signupSchema>>({
         resolver: zodResolver(signupSchema),
         defaultValues: {
+            name: '',
             email: '',
             password: '',
         },
@@ -31,6 +36,7 @@ const onSubmit = async (values: z.infer<typeof signupSchema>) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                name: values.name,
                 email: values.email,
                 password: values.password,
             }),
@@ -41,7 +47,8 @@ const onSubmit = async (values: z.infer<typeof signupSchema>) => {
         }
 
         const data = await response.json()
-        console.log(data)
+        router.push('/notebook')
+        console.log(data, "User signed up  successfully")
     } catch (error) {
         console.error(error)
     }
@@ -50,6 +57,19 @@ const onSubmit = async (values: z.infer<typeof signupSchema>) => {
   return (
     <Form {...form}>
         <form className='flex flex-col gap-6 w-full'>
+        <FormField
+                control={form.control}
+                name='name'
+                render={({field}) => (
+                    <FormItem>
+                        <FormLabel className='text-md'>First and Last Name</FormLabel>
+                        <FormControl>
+                            <Input placeholder='Enter Name' className='text-md' {...field} />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}></FormField>
+
             <FormField
                 control={form.control}
                 name='email'
