@@ -45,11 +45,11 @@ const onSubmit = async (values: z.infer<typeof signupSchema>) => {
 
         })
         if(!response.ok) {
-            throw new Error('Something went wrong')
+            throw new Error('Error creating user')
         }
 
         const data = await response.json()
-        router.push('/notebook')
+    // router.push('/notebook')
         console.log(data, "User signed up  successfully")
     } catch (error) {
         console.error(error)
@@ -101,7 +101,7 @@ const onSubmit = async (values: z.infer<typeof signupSchema>) => {
             <Button onClick={form.handleSubmit(onSubmit)}>Sign Up</Button>
         </form>
         <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
-        <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
+        <Button variant='outline' className='w-full'>Sign up with Google</Button>
     </Form>
   )
 }

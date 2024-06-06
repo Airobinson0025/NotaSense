@@ -16,11 +16,12 @@ export const createUser = async (name: string, email: string, password: string) 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // insert the user into the database
-    const user = await db. insert(users).values({
+    const newUser = await db. insert(users).values({
         name,
         email,
         password: hashedPassword,
     }). returning()
 
-    return user;
+
+    return newUser;
 }

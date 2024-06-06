@@ -11,9 +11,11 @@ export async function POST(req: NextRequest) {
         }
         
         //check if user already exists
-        if(await getUserByEmail(email)) {
+        const existingUser = await getUserByEmail(email);
+
+        if (existingUser) {
             return NextResponse.json({ error: "User with this email already exists" }, { status: 400 });
-        }
+        }        
 
         //create user
         const user = await createUser(name, email, password);
@@ -21,6 +23,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ user: user, message: "User created successfully" }, { status: 201 });
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+        return NextResponse.json({ error: error }, { status: 500 });
     }
 }
