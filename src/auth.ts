@@ -1,18 +1,51 @@
 import NextAuth from "next-auth"
-import Credentials from "next-auth/providers/credentials"
+import CredentialsProvider from "next-auth/providers/credentials"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
-import Google from "next-auth/providers/google"
+import GoogleProvider from "next-auth/providers/google"
 import { db } from "@/db/schema"
+import { getUserByEmail } from "./services/userService"
+import { verifyPassword } from "./services/authService"
+
+
 
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: DrizzleAdapter(db),
-  providers: [Google,
-    Credentials({
+  providers: [
+    GoogleProvider({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        }
+      }
+    }),
+    CredentialsProvider({
       credentials: {
-        email: {},
-        password: {}
+        email: { label: "Email", type: "email"},
+        password: { label: "Password", type: "password" },
+      },
+      authorize: async (credentials) => {
+        if (!credentials || !credentials?.email || !credentials.password) {
+           return null;
+        }
+
+        const user = await getUserByEmail(credentials.email as string);
+        if (user && await verifyPassword(credentials.password as string, user.password)) {
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+          };
+        } else {
+          return null;
+        }
       }
     })
   ],
+  callbacks: {
+  }
 })

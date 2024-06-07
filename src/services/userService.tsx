@@ -5,9 +5,9 @@ import { eq } from "drizzle-orm";
 
 export const getUserByEmail = async ( email: string ) => {
     // get the user from the database
-    const userByEmail = await db.select().from(users).where((user) => eq(user.email, email));
+    const user = await db.select().from(users).where((user) => eq(user.email, email));
 
-    return userByEmail[0];
+    return user[0];
 
 }
 
