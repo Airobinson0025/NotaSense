@@ -11,7 +11,11 @@ import {
   import type { AdapterAccountType } from "next-auth/adapters"
    
   const connectionString = process.env.DATABASE_URL || ""
-  const pool = postgres(connectionString, { max: 1 })
+  const pool = postgres(connectionString, {
+    max: 20,
+    idle_timeout: 30,
+    connect_timeout: 5,
+  })
    
   export const db = drizzle(pool)
    
@@ -21,7 +25,8 @@ import {
       .$defaultFn(() => crypto.randomUUID()),
     name: text("name"),
     email: text("email").notNull(),
-    password: text("password").notNull(),
+    password: text("password"), // removed not null constraint for provider authentication
+    
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
   })
