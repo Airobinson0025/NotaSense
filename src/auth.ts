@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import GoogleProvider from "next-auth/providers/google"
 import { db } from "@/db/schema"
-import { getUserByEmail } from "./services/userService"
+import { createUser, getUserByEmail } from "./services/userService"
 import { verifyPassword } from "./services/authService"
 
 
@@ -29,12 +29,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
-        if (!credentials || !credentials?.email || !credentials.password) {
+        if (!credentials || !credentials?.email || !credentials?.password) {
            return null;
         }
 
-        const user = await getUserByEmail(credentials.email as string);
-        if (user && await verifyPassword(credentials.password as string, user.password)) {
+        const user = await getUserByEmail(credentials?.email as string);
+        if (user && user.password && await verifyPassword(credentials?.password as string, user.password)) {
           return {
             id: user.id,
             name: user.name,
@@ -47,5 +47,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     })
   ],
   callbacks: {
+    
   }
 })
