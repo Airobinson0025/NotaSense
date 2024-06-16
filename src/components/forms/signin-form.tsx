@@ -6,7 +6,7 @@ import { Button } from '../ui/button'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { FcGoogle } from 'react-icons/fc'
 
@@ -27,8 +27,22 @@ const SignInForm = () => {
     })
 
     const onSubmit = async (values: z.infer<typeof signinSchema>) => {
-        console.log(values)
+        try {
+            const response = await signIn('credentials', {
+                email: values.email,
+                password: values.password,
+                redirect: false
+            })
+
+            if(response?.ok) {
+                console.log('User signed in successfully')
+                router.push('/notebook')
+            }
+        } catch (error) {
+            console.error(error, 'Error signing in with credientials')
     }
+}
+
   return (
     <Form {...form}>
         <form className='flex flex-col gap-6 w-full'>
@@ -58,7 +72,7 @@ const SignInForm = () => {
                     </FormItem>
                 )}></FormField>
 
-                <Button className='w-full mt-6'>Sign In</Button>
+                <Button onClick={form.handleSubmit(onSubmit)} className='w-full mt-6'>Sign In</Button>
         </form>
         <div className='mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400'>or</div>
         <Button className='w-full' variant='outline' onClick={() => {signIn('google', { callbackUrl: '/notebook'})}}>Sign In With Google<FcGoogle className='ml-1' size={20} /></Button>
