@@ -2,6 +2,8 @@
 import React from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import NotebookHeader from '@/components/global/notebook-header'
+
 
 
 const NotebookDashboard = () => {
@@ -20,7 +22,9 @@ const NotebookDashboard = () => {
 
     // console.log(session)
   return (
-    <div>Hello, {session?.user?.name}</div>
+    <div>
+      <NotebookHeader />
+    </div>
   )
 }
 

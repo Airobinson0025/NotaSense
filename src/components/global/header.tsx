@@ -1,6 +1,11 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import { Button } from '../ui/button'
+import { useSession } from 'next-auth/react'
+import { Sign } from 'crypto'
+import SignoutAlert from '../alerts/signout-alert'
+
 
 type Links = {
     label: string
@@ -13,6 +18,8 @@ type LinkProps = {
 }
 
 const Header = () => {
+
+    const { data: session, status } = useSession()
 
     const links: Links[] = [
         {
@@ -46,9 +53,13 @@ const Header = () => {
                     </li>
                 ))}
             </ul>
-            <Link href='/signin'>
-                <Button className='text-lg'>Login</Button>
-            </Link>
+            {session ? (
+                <SignoutAlert />
+            ) : (
+                <Link href='/signin'>
+                    <Button className='text-md'>Sign In</Button>
+                </Link>
+            )}
         </nav>
     </div>
   )
