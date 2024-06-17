@@ -35,7 +35,6 @@ const SignInForm = () => {
             })
 
             if(response?.ok) {
-                console.log('User signed in successfully')
                 router.push('/notebook')
             }
         } catch (error) {

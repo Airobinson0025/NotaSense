@@ -22,6 +22,41 @@
       "when": 1718372403240,
       "tag": "0002_woozy_nova",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1718548427702,
+      "tag": "0003_low_the_renegades",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1718548475209,
+      "tag": "0004_clean_nighthawk",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1718548533222,
+      "tag": "0005_bitter_cobalt_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1718548675401,
+      "tag": "0006_flippant_agent_brand",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1718548843280,
+      "tag": "0007_fast_shard",
+      "breakpoints": true
     }
   ]
 }

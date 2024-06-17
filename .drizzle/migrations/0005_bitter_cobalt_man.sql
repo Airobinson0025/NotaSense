@@ -1,0 +1,1 @@
+ALTER TABLE "note" ALTER COLUMN "userId" SET DATA TYPE integer;

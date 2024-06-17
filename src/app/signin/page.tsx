@@ -8,7 +8,7 @@ const SignIn = () => {
   return (
     <div className='h-screen flex items-center justify-center'>
         <div className='max-w-md bg-secondary p-10 rounded-md'>
-            <h2 className='mb-8'>Login To Notasense.</h2>
+            <h2 className='mb-8'>Login to Notasense.</h2>
             <SignInForm />
         </div>
     </div>

@@ -5,10 +5,12 @@ import {
     text,
     primaryKey,
     integer,
+    serial,
   } from "drizzle-orm/pg-core"
   import postgres from "postgres"
   import { drizzle } from "drizzle-orm/postgres-js"
   import type { AdapterAccountType } from "next-auth/adapters"
+import { create } from "domain"
    
   const connectionString = process.env.DATABASE_URL || ""
   const pool = postgres(connectionString, {
@@ -96,3 +98,11 @@ import {
       }),
     })
   )
+
+  export const notes = pgTable("note", {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    userId: text("userId").references(() => users.id, { onDelete: 'cascade'}).notNull(),
+    content: text("content"),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+  })
